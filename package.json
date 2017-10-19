@@ -1,0 +1,25 @@
+{
+  "name": "firecrud",
+  "version": "1.0.0",
+  "description": "firecrud is a module that given crud-like capabilities to firestore collections",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmghannam/fireCRUD.git"
+  },
+  "keywords": [
+    "firestore",
+    "firebase",
+    "crud",
+    "api"
+  ],
+  "author": "Mohammad Ghannam <Mohammad.m.ghannam@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mmghannam/fireCRUD/issues"
+  },
+  "homepage": "https://github.com/mmghannam/fireCRUD#readme"
+}
