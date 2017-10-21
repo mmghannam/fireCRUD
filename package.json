@@ -1,6 +1,6 @@
 {
   "name": "firecrud",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A package that gives CRUD-like capabilities to firestore collections and eases the creation of an API.",
   "main": "index.js",
   "scripts": {

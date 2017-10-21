@@ -38,7 +38,7 @@ const fireCRUD = ( (collectionRef) => {
         let id = req.body.id;
         collectionRef.doc(id).delete()
             .then(() => {
-                res.status(200).send({message: 'Document created successfully'});
+                res.status(200).send({message: 'Document deleted successfully'});
             })
             .catch((err) => {
                 res.status(500).send(err);
