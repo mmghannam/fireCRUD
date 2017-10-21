@@ -16,7 +16,7 @@ const fireCRUD = ( (collectionRef) => {
         let instance = req.body.instance;
         this.__ref.doc().set(instance)
             .then(() => {
-                res.status(200).send({message: 'Account created successfully'});
+                res.status(200).send({message: 'Document created successfully'});
             })
             .catch((err) => {
                 res.status(500).send(err);
@@ -28,6 +28,17 @@ const fireCRUD = ( (collectionRef) => {
         collectionRef.where(field.name, '==', field.value).get()
             .then((snapshot) => {
                 res.status(200).send(get_data(snapshot));
+            })
+            .catch((err) => {
+                res.status(500).send(err);
+            });
+    };
+
+    this.delete = (req, res) => {
+        let id = req.body.id;
+        collectionRef.doc(id).delete()
+            .then(() => {
+                res.status(200).send({message: 'Document created successfully'});
             })
             .catch((err) => {
                 res.status(500).send(err);
