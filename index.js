@@ -1,59 +1,47 @@
-const fireCRUD = ( (collectionRef) => {
+const fireCRUD = ((collection_ref, express_app = null, only = null) => {
 
-    this.__ref = collectionRef;
+    const functions = require('./functions')(collection_ref);
 
-    this.all = (req, res) => {
-        this.__ref.get()
-            .then((snapshot) => {
-                res.status(200).send(get_data(snapshot));
-            })
-            .catch((err) => {
-                res.status(500).send(err);
-            });
-    };
+    handleOnlyList((func_name) => {
+        this[func_name] = functions[func_name];
+    });
 
-    this.save = (req, res) => {
-        let instance = req.body.instance;
-        this.__ref.doc().set(instance)
-            .then(() => {
-                res.status(200).send({message: 'Document created successfully'});
-            })
-            .catch((err) => {
-                res.status(500).send(err);
-            });
-    };
+    // add express routing
+    if (express_app) {
 
-    this.find_by_field = (req, res) => {
-        let field = req.body.field;
-        collectionRef.where(field.name, '==', field.value).get()
-            .then((snapshot) => {
-                res.status(200).send(get_data(snapshot));
-            })
-            .catch((err) => {
-                res.status(500).send(err);
-            });
-    };
+        let collection_name = collectionNameFromRef(collection_ref);
+        //initializing routes
+        const routes = require('./routes')(functions, express_app, collection_name);
 
-    this.delete = (req, res) => {
-        let id = req.body.id;
-        collectionRef.doc(id).delete()
-            .then(() => {
-                res.status(200).send({message: 'Document deleted successfully'});
-            })
-            .catch((err) => {
-                res.status(500).send(err);
-            });
-    };
-
-    function get_data(snapshot) {
-        var result = [];
-        snapshot.forEach(doc => {
-            var obj = {};
-            obj[doc.id] = doc.data();
-            result.push(obj);
+        handleOnlyList((func_name) => {
+            routes[func_name]();
         });
-        return result;
     }
+
+    function handleOnlyList(handler) {
+        // in case of not defining an only list, all functions are added by default
+        if (!only) {
+            Object.keys(routes).forEach(function (func_name) {
+                handler(func_name);
+            });
+        } else if (only.length == 0) {
+            throw "only list can't be of zero length";
+        } else {
+            only.forEach((func_name) => {
+                handler(func_name);
+            });
+        }
+    }
+
+    function collectionNameFromRef(collection_ref) {
+        return collection_ref._referencePath.segments[0];
+    }
+
+    //TODO: add the ability to define cached actions
+
+    //TODO: add the ability to authenticate before calling a function
+
+    //TODO: add the ability to give verbose errors or not 
 
     return this;
 });
