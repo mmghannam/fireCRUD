@@ -22,7 +22,7 @@ let save = () => {
 
 // DELETE /collection_name/:id
 let destroy = () => {
-    app.destroy('/' + collection_name + '/:id', (req, res) => {
+    app.delete('/' + collection_name + '/:id', (req, res) => {
         functions.destroy(req, res);
     });
 };

@@ -1,7 +1,10 @@
 const fireCRUD = ((collection_ref, express_app = null, only = null) => {
 
     const functions = require('./functions')(collection_ref);
-
+    let collection_name = collectionNameFromRef(collection_ref);
+    //initializing routes
+    const routes = require('./routes')(functions, express_app, collection_name);
+    
     handleOnlyList((func_name) => {
         this[func_name] = functions[func_name];
     });
@@ -9,9 +12,7 @@ const fireCRUD = ((collection_ref, express_app = null, only = null) => {
     // add express routing
     if (express_app) {
 
-        let collection_name = collectionNameFromRef(collection_ref);
-        //initializing routes
-        const routes = require('./routes')(functions, express_app, collection_name);
+        
 
         handleOnlyList((func_name) => {
             routes[func_name]();

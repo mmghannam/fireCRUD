@@ -12,11 +12,14 @@ let all = (req, res) => {
 };
 
 // save a document
-let save = (req, res, collection_ref) => {
-    let instance = req.body.instance;
-    collection_ref.doc().set(instance)
-        .then(() => {
-            res.status(200).send({message: 'Document created successfully'});
+let save = (req, res) => {
+    let document = JSON.parse(req.body);
+    collection_ref.doc().set(document)
+        .then((ref) => {
+            res.status(200).send({
+                message: 'Document created successfully',
+                id: ref.id
+            });
         })
         .catch((err) => {
             res.status(500).send(err);
@@ -24,7 +27,7 @@ let save = (req, res, collection_ref) => {
 };
 
 // find documents by field
-let find_by_field = (req, res, collection_ref) => {
+let find_by_field = (req, res) => {
     let field = req.body.field;
     collection_ref.where(field.name, '==', field.value).get()
         .then((snapshot) => {
@@ -36,12 +39,12 @@ let find_by_field = (req, res, collection_ref) => {
 };
 
 // find document by id
-let find = (req, res, collection_ref) => {
+let find = (req, res) => {
     let id = req.params.id;
     collection_ref.doc(id).get()
         .then(doc => {
             if (!doc.exists) {
-                res.status(404).send({message: 'No such document!'});
+                res.status(404).send({ message: 'No such document!' });
             } else {
                 let obj = {};
                 obj[doc.id] = doc.data();
@@ -54,12 +57,12 @@ let find = (req, res, collection_ref) => {
 };
 
 // update document
-let update = (req, res, collection_ref) => {
+let update = (req, res) => {
     let id = req.params.id;
-    let updated_fields = req.body.doc;
+    let updated_fields = JSON.parse(req.body);
     collection_ref.doc(id).update(updated_fields)
         .then(() => {
-            res.status(200).send({message: 'Document updated successfully'});
+            res.status(200).send({ message: "Document updated successfully" });
         })
         .catch((err) => {
             res.status(500).send(err);
@@ -67,7 +70,7 @@ let update = (req, res, collection_ref) => {
 };
 
 // delete document
-let destroy = (req, res, collection_ref) => {
+let destroy = (req, res) => {
     let id = req.body.id;
     collection_ref.doc(id).get()
         .then((doc) => {
