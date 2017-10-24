@@ -12,7 +12,58 @@ npm install firecrud
 ```
 
 ## Usage
-Load the package then add the CRUD functions to firestore collection
+### using default express routes
+```javascript
+// load package
+const fireCRUD = require('firecrud');
+// get reference to collection
+const accountsRef = db.collection('accounts');
+// load express app
+var app = express();
+// add crud functionality
+const accounts = fireCRUD(accountsRef, app);
+```
+
+### routes defined by default
+#### All
+``` HTTP
+GET /collection_name
+```
+returns all documents in collection.
+#### Save
+``` HTTP
+POST /collection_name
+{
+ "field1": "value1",
+ "field2": "value2",
+ "field3": "value3"
+ }
+```
+Saves document in collection and returns a success message.
+#### Destroy
+``` HTTP
+DELETE /collection_name/:id
+```
+Takes document id as a parameter, removes that document and returns a success message.
+#### Update
+``` HTTP
+PUT /collection_name/:id
+{
+"field1_to_update" : "value1",
+"field2_to_update" : "value2"
+}
+```
+Takes document id as a parameter, updates that document and returns a success message.
+#### Find
+``` HTTP
+DELETE /collection_name/:id
+```
+Takes document id as a parameter, returns the found document.
+
+
+
+### defining your own routes with express 
+Load the package
 ```javascript
 // load package
 const fireCRUD = require('firecrud');
@@ -21,8 +72,7 @@ const accountsRef = db.collection('accounts');
 // add crud functionality
 const accounts = fireCRUD(accountsRef);
 ```
-
-### with express 
+define your own routes
 ```javascript
 // create an express app
 const app = express();
