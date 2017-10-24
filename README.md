@@ -39,7 +39,7 @@ POST /collection_name
  "field3": "value3"
  }
 ```
-Saves document in collection and returns a success message.
+Takes document object in request body, saves document in collection and returns a success message.
 #### Destroy
 ``` HTTP
 DELETE /collection_name/:id
@@ -53,10 +53,10 @@ PUT /collection_name/:id
 "field2_to_update" : "value2"
 }
 ```
-Takes document id as a parameter, updates that document and returns a success message.
+Takes document id as a parameter and an object of the updated fields in request body, updates that document and returns a success message.
 #### Find
 ``` HTTP
-DELETE /collection_name/:id
+GET /collection_name/:id
 ```
 Takes document id as a parameter, returns the found document.
 
